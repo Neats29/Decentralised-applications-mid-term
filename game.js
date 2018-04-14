@@ -27,26 +27,26 @@ app.get('/', function(req, res) {
     var CodenamesBytecode = "0x2D46F0B94F3efbC09aCa25Be0fe4fF50204DD5d4"
     var Codenames = new web3.eth.Contract(CodenamesABI, CodenamesBytecode, { from: web3.eth.accounts[0], gas: 3000000 });
 
-  // const initBoard = () => {
-  //   console.log("hi")
-  //   // selects a random sample of words
-  //   // select a number 0-8, make one the assasin
-  //   // for (number of spies, eg 0-3), choose a number from 0-8 which is not the asssin, make it the agent,
-  //   // then make the rest bystanders
+  const initBoard = () => {
+    console.log("hi")
+    // selects a random sample of words
+    // select a number 0-8, make one the assasin
+    // for (number of spies, eg 0-3), choose a number from 0-8 which is not the asssin, make it the agent,
+    // then make the rest bystanders
 
-  //   var square = 0;
-  //   while (square < 9) {
-  //     word = Math.floor(Math.random() * Math.floor(9));
-  //     if (!CodenamesGame.boardState.has(word)) {
-  //       CodenamesGame.boardState[i] = word;
-  //     }
-  //     else {
-  //       word = Math.floor(Math.random() * Math.floor(9));
-  //     }
-  //     i++;
-  //   } 
+    var square = 0;
+    while (square < 9) {
+      word = Math.floor(Math.random() * Math.floor(9));
+      if (!CodenamesGame.boardState.has(word)) {
+        CodenamesGame.boardState[i] = word;
+      }
+      else {
+        word = Math.floor(Math.random() * Math.floor(9));
+      }
+      i++;
+    } 
 
-  // }
+  }
 
 
   // console.log(CodenamesGame.boardState);
@@ -60,6 +60,8 @@ app.get('/', function(req, res) {
 
 
 app.listen(3000)
+
+
 
 
 // const play = () => {}

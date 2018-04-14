@@ -1,9 +1,93 @@
+<!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+</head>
 
 <body>
-  <h1>It's working!</h1>
+  <h1>Condenames</h1>
+<div class="container">
+  <div class="columns is-mobile">
+    <div class="column is-one-third">
+      <button class="button is-large" id="0"></button>
+    </div>
+    <div class="column is-one-third">
+      <button class="button is-large" id="1"></button>
+    </div>
+    <div class="column is-one-third">
+      <button class="button is-large" id="2"></button>
+    </div>
+  </div>
+  <div class="columns is-mobile">
+    <div class="column is-one-third">
+      <button class="button is-large" id="3"></button>
+    </div>
+    <div class="column is-one-third">
+      <button class="button is-large" id="4"></button>
+    </div>
+    <div class="column is-one-third">
+      <button class="button is-large" id="5"></button>
+    </div>
+  </div>
+  <div class="columns is-mobile">
+    <div class="column is-one-third">
+      <button class="button is-large" id="6"></button>
+    </div>
+    <div class="column is-one-third">
+      <button class="button is-large" id="7"></button>
+    </div>
+    <div class="column is-one-third">
+      <button class="button is-large" id="8"></button>
+    </div>
+  </div>
+  </div>
+</div>
+<script>
+
+      let arr = []
+      let numSqaures = 9
+      for (var a = 0; a < numSqaures; a++) {
+        // button.addEventListener('click', function() {})
+        arr.push(document.getElementById(a))
+        arr[a].addEventListener('click', function (event) {
+          console.log(event)
+          console.log(getElementID(event))
+
+        })
+      }
+
+      var getElementID = function(event) {
+        return event.path[0].id
+      }
+
+
+
+    
+</script>
+
 </body>
 
 </html>
+
+
+<!-- TODO
+  - Html & JS
+  - write docs as you go
+  - Set up the rest of the UI, click events, the master key, the input box for the clue, a win/loose output
+  - set up the board (data structures)
+  - set up the players (take their name, then randomise who is the clue giver and who is the guesser)
+  - click event on the clue input box, needs to talk to web3 which talks to whisper??
+  - Any assets or just css to represent the agents, assassin and bystanders? (could use IPFS if assets used)
+  - create a list of words
+
+  - Sol
+
+  - Whisper
+  - setup the whisper boilerplate and send the input
+
+  - how do we deploy?
+
+ -->
