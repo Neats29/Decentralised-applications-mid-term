@@ -14,15 +14,7 @@ app.get('/init-board', function(req, res) {
     randomWords: []
   }
 
-  res.send(
-    initBoard(
-      config.boardSize,
-      config.spyCount,
-      config.assassinCount,
-      config.boardState,
-      config.randomWords
-    )
-  )
+  res.send(initBoard(config))
 })
 
 app.listen(3000)
