@@ -52,9 +52,9 @@ const initBoard = (boardSize, spyCount, assassinCount) => {
       if (boardState[bystander] == 'S') {
         boardState[bystander] = 'B'
         s++
-        addBystanders(s)
+        addBystanders(s, bystanderCount)
       } else {
-        addBystanders(s)
+        addBystanders(s, bystanderCount)
       }
     }
   }
