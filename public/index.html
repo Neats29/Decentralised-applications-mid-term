@@ -47,6 +47,16 @@
   </div>
   </div>
   <script>
+    // on page load
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('/init-board').then(function (res) {
+        return res.json()
+      }).then(function (data) {
+        console.log(data)
+        // data is {boardState: Array(9), randomWords: Array(4)} 
+        // TODO: now we could assign the randomeWords to the elements of 'S' in boardState
+      }).catch(console.log)
+    });
 
     let arr = []
     let numSqaures = 9
@@ -54,9 +64,6 @@
       // button.addEventListener('click', function() {})
       arr.push(document.getElementById(a))
       arr[a].addEventListener('click', function (event) {
-        console.log(event)
-        console.log(getElementID(event))
-
       })
     }
 

@@ -9,7 +9,7 @@
 * write docs as we go...
 
 1.  [ ] Set up the rest of the UI, click events, the master key, the input box for the clue, a win/loose output
-2.  [ ] set up the board (data structures in the backend)
+2.  [x] set up the board (data structures in the backend)
 3.  [ ] set up the players (take their name, then randomise who is the clue giver and who is the guesser)
 4.  [ ] click event on the clue input box, needs to talk to web3 which talks to whisper??
 5.  [ ] Any assets or just css to represent the agents, assassin and bystanders? (could use IPFS if assets used)

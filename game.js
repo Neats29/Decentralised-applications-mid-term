@@ -5,7 +5,79 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 const app = express()
 app.use(express.static('public'))
 
-app.get('/d', function(req, res) {
+const initBoard = (boardSize, spyCount, assassinCount) => {
+  const rand = max => Math.floor(Math.random() * Math.floor(max))
+
+  const isUnique = arr => {
+    const l = arr.length
+    return (
+      arr.sort((a, b) => a < b).filter((a, i, array) => a != array[i + 1])
+        .length == l
+    )
+  }
+
+  let randomWords = []
+  const randomiseWords = (i, spyCount) => {
+    if (i < spyCount) {
+      let randWord = words[rand(words.length)]
+      if (!randomWords.includes(randWord)) {
+        randomWords.push(randWord)
+        i++
+        randomiseWords(i, spyCount)
+      } else {
+        randomiseWords(i, spyCount)
+      }
+    }
+  }
+
+  randomiseWords(0, spyCount)
+
+  //we want to end up with an array like: ["S", "A", "S", "S", "B", "S", "B", "B", "B"]
+  // S = spy, A = assassin, B = Bystander
+  let square = 0
+  let boardState = []
+  while (square < boardSize) {
+    boardState.push('S')
+    square++
+  }
+  const assassin = rand(boardSize)
+  boardState[assassin] = 'A'
+
+  //workout the number of bystanders by taking away the spies and the assassin
+  const bystanderCount = boardSize - spyCount - assassinCount
+
+  const addBystanders = s => {
+    if (s < bystanderCount) {
+      let bystander = rand(boardSize)
+      if (boardState[bystander] == 'S') {
+        boardState[bystander] = 'B'
+        s++
+        addBystanders(s)
+      } else {
+        addBystanders(s)
+      }
+    }
+  }
+
+  addBystanders(0, bystanderCount)
+
+  const boardInitialisedCorrectly = () => {
+    const squareType = type => boardState.filter(a => a == type).length
+    return (
+      squareType('B') == bystanderCount &&
+      squareType('A') == assassinCount &&
+      squareType('S') == spyCount
+    )
+  }
+
+  if (boardInitialisedCorrectly()) {
+    return { boardState, randomWords }
+  } else {
+    throw new Error("The board wasn't initialised correctly")
+  }
+}
+
+app.get('/init-board', function(req, res) {
   const CodenamesABI = [
     {
       constant: false,
@@ -42,74 +114,7 @@ app.get('/d', function(req, res) {
     gas: 3000000
   })
 
-  //pasting it here while we haven't managed to connect to our sol code
-  const boardState = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ]
-
-  const initBoard = (boardSize, spyCount, assassinCount) => {
-    // selects a random sample of words
-    // select a number 0-8, make one the assasin
-    // for (number of spies, eg 0-3), choose a number from 0-8 which is not the asssin, make it the agent,
-    // then make the rest bystanders
-    const rand = max => Math.floor(Math.random() * Math.floor(max))
-
-    const randomisedWords = ['x', 'z', 'mo', 'ji']
-
-    //we want to end up with an array like: ["S", "A", "S", "S", "B", "S", "B", "B", "B"]
-    // S = spy, A = assassin, B = Bystander
-    let square = 0
-    let board = []
-    while (square < boardSize) {
-      board.push('S')
-      square++
-    }
-    const assassin = rand(boardSize)
-    board[assassin] = 'A'
-
-    //workout the number of bystanders by taking away the spies and the assassin
-    const bystanderCount = boardSize - spyCount - assassinCount
-
-    const addBystanders = s => {
-      if (s < bystanderCount) {
-        let bystander = rand(boardSize)
-        if (board[bystander] == 'S') {
-          board[bystander] = 'B'
-          s++
-          addBystanders(s)
-        } else {
-          addBystanders(s)
-        }
-      }
-    }
-
-    addBystanders(0, bystanderCount)
-
-    const boardInitialisedCorrectly = () => {
-      const squareType = type => board.filter(a => a == type).length
-      return (
-        squareType('B') == bystanderCount &&
-        squareType('A') == assassinCount &&
-        squareType('S') == spyCount
-      )
-    }
-
-    if (boardInitialisedCorrectly()) {
-      //then play
-    }
-  }
-
-  initBoard(9, 4, 1)
-
-  res.send()
+  res.send(initBoard(9, 4, 1))
 })
 
 app.listen(3000)
