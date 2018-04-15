@@ -53,8 +53,11 @@
         return res.json()
       }).then(function (data) {
         console.log(data)
-        // data is {boardState: Array(9), randomWords: Array(4)} 
-        // TODO: now we could assign the randomeWords to the elements of 'S' in boardState
+        let index = 0
+        data.boardState.forEach(function (a, i) {
+          document.getElementById(i).innerHTML = data.randomWords[index]
+          index++
+        })
       }).catch(console.log)
     });
 

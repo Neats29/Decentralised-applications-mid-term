@@ -17,20 +17,20 @@ const initBoard = (boardSize, spyCount, assassinCount) => {
   }
 
   let randomWords = []
-  const randomiseWords = (i, spyCount) => {
-    if (i < spyCount) {
+  const randomiseWords = (i, boardSize) => {
+    if (i < boardSize) {
       let randWord = words[rand(words.length)]
       if (!randomWords.includes(randWord)) {
         randomWords.push(randWord)
         i++
-        randomiseWords(i, spyCount)
+        randomiseWords(i, boardSize)
       } else {
-        randomiseWords(i, spyCount)
+        randomiseWords(i, boardSize)
       }
     }
   }
 
-  randomiseWords(0, spyCount)
+  randomiseWords(0, boardSize)
 
   //we want to end up with an array like: ["S", "A", "S", "S", "B", "S", "B", "B", "B"]
   // S = spy, A = assassin, B = Bystander
