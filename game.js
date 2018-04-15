@@ -5,18 +5,15 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 const app = express()
 app.use(express.static('public'))
 
-const initBoard = (boardSize, spyCount, assassinCount) => {
+const initBoard = (
+  boardSize,
+  spyCount,
+  assassinCount,
+  boardState,
+  randomWords
+) => {
   const rand = max => Math.floor(Math.random() * Math.floor(max))
 
-  const isUnique = arr => {
-    const l = arr.length
-    return (
-      arr.sort((a, b) => a < b).filter((a, i, array) => a != array[i + 1])
-        .length == l
-    )
-  }
-
-  let randomWords = []
   const randomiseWords = (i, boardSize) => {
     if (i < boardSize) {
       let randWord = words[rand(words.length)]
@@ -35,7 +32,6 @@ const initBoard = (boardSize, spyCount, assassinCount) => {
   //we want to end up with an array like: ["S", "A", "S", "S", "B", "S", "B", "B", "B"]
   // S = spy, A = assassin, B = Bystander
   let square = 0
-  let boardState = []
   while (square < boardSize) {
     boardState.push('S')
     square++
@@ -114,7 +110,7 @@ app.get('/init-board', function(req, res) {
     gas: 3000000
   })
 
-  res.send(initBoard(9, 4, 1))
+  res.send(initBoard(9, 4, 1, [], []))
 })
 
 app.listen(3000)
