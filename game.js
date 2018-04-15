@@ -5,7 +5,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 const app = express()
 app.use(express.static('public'))
 
-app.get('/', function(req, res) {
+app.get('/d', function(req, res) {
   const CodenamesABI = [
     {
       constant: false,
@@ -42,28 +42,72 @@ app.get('/', function(req, res) {
     gas: 3000000
   })
 
-  const initBoard = () => {
-    console.log('words', words)
+  //pasting it here while we haven't managed to connect to our sol code
+  const boardState = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ]
+
+  const initBoard = (boardSize, spyCount, assassinCount) => {
     // selects a random sample of words
     // select a number 0-8, make one the assasin
     // for (number of spies, eg 0-3), choose a number from 0-8 which is not the asssin, make it the agent,
     // then make the rest bystanders
+    const rand = max => Math.floor(Math.random() * Math.floor(max))
 
-    const square = 0
-    while (square < 9) {
-      word = Math.floor(Math.random() * Math.floor(9))
-      if (!Codenames.boardState.has(word)) {
-        Codenames.boardState[i] = word
-      } else {
-        word = Math.floor(Math.random() * Math.floor(9))
+    const randomisedWords = ['x', 'z', 'mo', 'ji']
+
+    //we want to end up with an array like: ["S", "A", "S", "S", "B", "S", "B", "B", "B"]
+    // S = spy, A = assassin, B = Bystander
+    let square = 0
+    let board = []
+    while (square < boardSize) {
+      board.push('S')
+      square++
+    }
+    const assassin = rand(boardSize)
+    board[assassin] = 'A'
+
+    //workout the number of bystanders by taking away the spies and the assassin
+    const bystanderCount = boardSize - spyCount - assassinCount
+
+    const addBystanders = s => {
+      if (s < bystanderCount) {
+        let bystander = rand(boardSize)
+        if (board[bystander] == 'S') {
+          board[bystander] = 'B'
+          s++
+          addBystanders(s)
+        } else {
+          addBystanders(s)
+        }
       }
-      i++
+    }
+
+    addBystanders(0, bystanderCount)
+
+    const boardInitialisedCorrectly = () => {
+      const squareType = type => board.filter(a => a == type).length
+      return (
+        squareType('B') == bystanderCount &&
+        squareType('A') == assassinCount &&
+        squareType('S') == spyCount
+      )
+    }
+
+    if (boardInitialisedCorrectly()) {
+      //then play
     }
   }
 
-  console.log('board state', Codenames.boardState)
-
-  initBoard()
+  initBoard(9, 4, 1)
 
   res.send()
 })

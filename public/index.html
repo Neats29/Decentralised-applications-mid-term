@@ -10,67 +10,62 @@
 
 <body>
   <h1 class="is-size-3 has-text-centered">Condenames</h1>
-<div class="container">
-  <div class="columns is-mobile">
-    <div class="column is-one-third">
-      <button class="button is-large" id="0"></button>
+  <div class="container">
+    <div class="columns is-mobile">
+      <div class="column is-one-third">
+        <button class="button is-large" id="0"></button>
+      </div>
+      <div class="column is-one-third">
+        <button class="button is-large" id="1"></button>
+      </div>
+      <div class="column is-one-third">
+        <button class="button is-large" id="2"></button>
+      </div>
     </div>
-    <div class="column is-one-third">
-      <button class="button is-large" id="1"></button>
+    <div class="columns is-mobile">
+      <div class="column is-one-third">
+        <button class="button is-large" id="3"></button>
+      </div>
+      <div class="column is-one-third">
+        <button class="button is-large" id="4"></button>
+      </div>
+      <div class="column is-one-third">
+        <button class="button is-large" id="5"></button>
+      </div>
     </div>
-    <div class="column is-one-third">
-      <button class="button is-large" id="2"></button>
+    <div class="columns is-mobile">
+      <div class="column is-one-third">
+        <button class="button is-large" id="6"></button>
+      </div>
+      <div class="column is-one-third">
+        <button class="button is-large" id="7"></button>
+      </div>
+      <div class="column is-one-third">
+        <button class="button is-large" id="8"></button>
+      </div>
     </div>
   </div>
-  <div class="columns is-mobile">
-    <div class="column is-one-third">
-      <button class="button is-large" id="3"></button>
-    </div>
-    <div class="column is-one-third">
-      <button class="button is-large" id="4"></button>
-    </div>
-    <div class="column is-one-third">
-      <button class="button is-large" id="5"></button>
-    </div>
   </div>
-  <div class="columns is-mobile">
-    <div class="column is-one-third">
-      <button class="button is-large" id="6"></button>
-    </div>
-    <div class="column is-one-third">
-      <button class="button is-large" id="7"></button>
-    </div>
-    <div class="column is-one-third">
-      <button class="button is-large" id="8"></button>
-    </div>
-  </div>
-  </div>
-</div>
-<script>
+  <script>
 
-      let arr = []
-      let numSqaures = 9
-      for (var a = 0; a < numSqaures; a++) {
-        // button.addEventListener('click', function() {})
-        arr.push(document.getElementById(a))
-        arr[a].addEventListener('click', function (event) {
-          console.log(event)
-          console.log(getElementID(event))
+    let arr = []
+    let numSqaures = 9
+    for (var a = 0; a < numSqaures; a++) {
+      // button.addEventListener('click', function() {})
+      arr.push(document.getElementById(a))
+      arr[a].addEventListener('click', function (event) {
+        console.log(event)
+        console.log(getElementID(event))
 
-        })
-      }
+      })
+    }
 
-      var getElementID = function(event) {
-        return event.path[0].id
-      }
+    var getElementID = function (event) {
+      return event.path[0].id
+    }
 
-
-
-    
-</script>
+  </script>
 
 </body>
 
 </html>
-
-
