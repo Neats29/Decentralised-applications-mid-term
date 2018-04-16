@@ -1,7 +1,7 @@
 ### How to run
 
 * `npm install`
-* `node game.js`
+* `node src/app.js`
 
 ### Tasks
 
