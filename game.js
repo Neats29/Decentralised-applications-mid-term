@@ -16,6 +16,7 @@ const initBoard = (boardSize, spyCount, assassinCount) => {
     )
   }
 
+
   let randomWords = []
   const randomiseWords = (i, boardSize) => {
     if (i < boardSize) {
@@ -121,7 +122,7 @@ app.listen(3000)
 
 // const play = () => {}
 
-// // const fireShot = () => {
+// // const getGuess = () => {
 // //   // the frontent fires a click event which calls this func
 // //   //update number of total guesses in that round
 // // }

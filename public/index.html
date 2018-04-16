@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <h1 class="is-size-3 has-text-centered">Condenames</h1>
+  <h1 class="is-size-3 has-text-centered">Codenames</h1>
   <div class="container">
     <div class="columns is-mobile">
       <div class="column is-one-third">
@@ -47,27 +47,47 @@
   </div>
   </div>
   <script>
+
     // on page load
     document.addEventListener("DOMContentLoaded", function () {
       fetch('/init-board').then(function (res) {
         return res.json()
       }).then(function (data) {
-        console.log(data)
         let index = 0
         data.boardState.forEach(function (a, i) {
           document.getElementById(i).innerHTML = data.randomWords[index]
           index++
         })
+        play(data.boardState)
       }).catch(console.log)
     });
 
-    let arr = []
-    let numSqaures = 9
-    for (var a = 0; a < numSqaures; a++) {
-      // button.addEventListener('click', function() {})
-      arr.push(document.getElementById(a))
-      arr[a].addEventListener('click', function (event) {
-      })
+
+    function play(boardState) {
+      let arr = []
+      let numSqaures = 9
+      for (var a = 0; a < numSqaures; a++) {
+        arr.push(document.getElementById(a))
+        arr[a].addEventListener("click", function() {
+          flip(boardState)
+        })
+      }
+    }
+
+    // Reveals what type of card it was by looking up the corresponding index in boardState
+    function flip(boardState) {
+      if (boardState[getElementID(event)] == "S") {
+        document.getElementById(getElementID(event)).style.backgroundColor = "red"
+        document.getElementById(getElementID(event)).innerHTML = "Secret Agent";
+      }
+      else if (boardState[getElementID(event)] == "B") {
+        document.getElementById(getElementID(event)).style.backgroundColor = "white"
+        document.getElementById(getElementID(event)).innerHTML = "Bystander";
+      }
+      else {
+        document.getElementById(getElementID(event)).style.backgroundColor = "black"
+        document.getElementById(getElementID(event)).innerHTML = "Assassin";
+      }
     }
 
     var getElementID = function (event) {
