@@ -1,0 +1,10 @@
+.column {
+  margin: 5px;
+}
+
+.button {
+  width: 190px;
+  height: 140px;
+  display: inline-block;
+  border-radius: 16px;
+}
