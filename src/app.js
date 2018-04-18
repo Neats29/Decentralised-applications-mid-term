@@ -1,5 +1,11 @@
 const express = require('express')
 const initBoard = require('./init-board')
+const game = require('./game')
+
+// const Web3 = require('web3')
+// const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+
+// var shh = web3.shh
 
 const app = express()
 app.use(express.static('public'))
@@ -14,6 +20,9 @@ app.get('/init-board', function(req, res) {
     randomWords: []
   }
 
+  console.log(game())
+
+  // console.log(shh)
   res.send(initBoard(config))
 })
 
