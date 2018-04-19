@@ -17,3 +17,4 @@
 7.  [ ] setup the whisper boilerplate and send the input
 8.  [ ] how do we deploy?
 9.  [ ] add a simple list of roles to show at the same time we take the player's name when they 1st play the game
+10. [ ] add a loading icon while the images are loading, can be slow to load on a slow network

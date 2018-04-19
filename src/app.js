@@ -20,9 +20,8 @@ app.get('/init-board', function(req, res) {
     randomWords: []
   }
 
-  console.log(game())
+  // console.log(game())
 
-  // console.log(shh)
   res.send(initBoard(config))
 })
 

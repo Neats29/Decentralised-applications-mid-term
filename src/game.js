@@ -43,28 +43,114 @@ var shh = web3.shh
 
 const fromAscii = str => shh.extend.utils.fromAscii(str)
 
+const toAscii = str => shh.extend.utils.toAscii(str)
 
-// We need the recipient's public key
-// var keyID = shh.newKeyPair()
+// create public key for each user
+// create topic hex
+// send the message
 
-shh.newMessageFilter({ privateKeyID: shh.newKeyPair() }, (err, res) => {
-  console.log(JSON.stringify(res))
+// const topic = 'player_combo_uniq_id'
+
+// const filter = (topic, privateKeyID) => ({
+//   topics: [fromAscii(topic)],
+//   // privateKeyID is the same as the asymKeyId which newKeyPair returns
+//   privateKeyID
+// })
+
+// const prepareAndSendMsg = () => {
+//   shh
+//     .newKeyPair()
+//     .then(config(filter(topic, id)))
+//     .then(id =>
+//       shh
+//         .getPublicKey(id)
+//         .then(sendMsg)
+//         .catch(console.log)
+//     )
+//     .catch(console.log)
+// }
+// let msgs = []
+
+// const config = filter => {
+//   shh
+//     .newMessageFilter(filter)
+//     .then(filterId => {
+//       setInterval(() => {
+//         shh.getFilterMessages(filterId).then(messages => {
+//           for (let msg of messages) {
+//             let message = toAscii(msg.payload)
+//             msgs.push({
+//               name: message.name,
+//               text: message.text
+//             })
+//           }
+//         })
+//       }, 1000)
+//     })
+//     .catch(console.log)
+// }
+
+// const sendMsg = pubKey => {
+//   var clue = 'my_clue' //take text from the input box
+//   var payload = fromAscii(clue)
+//   shh
+//     .post({ pubKey, payload, ttl: 1000, powTarget: 2.01, powTime: 2, topic: '0x07678231' })
+//     .then(console.log)
+//     .catch(console.log)
+// }
+
+// prepareAndSendMsg()
+
+//-------------------------------------------------------------------------------------------------
+
+// DEFAULT VALUES
+// aka privateKeyID
+const keyPairID = 'bea9108f926e02c864c53fc0ac8e4b38e824d85a25dc0d660fc1b1d23e67449b'
+const pubKey =
+  '0x04958b2a2e51002072f1c4f5716a11b1eaad6281ca799b06a00e27a54bad3ade93a4753d5e5b6c738ee1ed20656052a633b37a9c38c0d04f2b5fd7d199c5009cea'
+
+const topic = 'player_combo_uniq_id'
+
+const filter = topic => ({
+  // topics: [fromAscii(topic)],
+  // privateKeyID is the same as the asymKeyId which newKeyPair returns
+  privateKeyID: keyPairID
 })
 
-shh.getPublicKey(keyID)
+// const prepareAndSendMsg = () => {
+//   shh
+//     .newKeyPair()
+//     .then(id =>
+//       shh
+//         .getPublicKey(id)
+//         .then(sendMsg)
+//         .catch(console.log)
+//     )
+//     .catch(console.log)
+// }
 
-const prepareAndSendMsg = () => {
+let msgs = []
+
+const config = filter => {
   shh
-    .newKeyPair()
-    .then(id => shh
-      .getPublicKey(id)
-      .then(sendMsg)
-      .catch(console.log))
-    .catch(console.log) // do this when the clue giver 1st starts the game
- }
+    .newMessageFilter(filter(topic))
+    .then(filterId => {
+      setInterval(() => {
+        shh
+          .getFilterMessages(filterId)
+          .then(messages => {
+            for (let msg of messages) {
+              let message = toAscii(msg.payload)
+              msgs.push({ name: message.name, text: message.text })
+            }
+          })
+          .then(sendMsg(pubKey))
+      }, 1000)
+    })
+    .catch(console.log)
+}
 
-
-const sendMsg = (pubKey) => {
+const sendMsg = pubKey => {
   var clue = 'my_clue' //take text from the input box
   var payload = fromAscii(clue)
   shh
@@ -73,20 +159,4 @@ const sendMsg = (pubKey) => {
     .catch(console.log)
 }
 
-prepareAndSendMsg()
-
-
-
-
-
-// var pubKey =
-//   '0x045d85f8a9f14384f03b41693877408958f69ea284961dc8832ee19ee9970fc99240683453abb1f8903018c2cc22aa53c289e8f8ae429b89b5e36ef7ad30ab50ff'
-
-
-
-// var PLAYER1 = 'Anita'
-// var clueGiver = PLAYER1
-
-
-// module.exports = () => {
-
+// config(filter)
