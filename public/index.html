@@ -63,9 +63,6 @@
         arr.push(document.getElementById(a))
         arr[a].addEventListener("click", function() {
           selectCard(event, selectedSquares)
-          // console.log(getElementID(event))
-          // console.log(selectedSquares[getElementID(event)])
-          // console.log(selectedSquares)
         })
       }
 
@@ -128,5 +125,8 @@
 </html>
 
 <!--
-1) Clicking records user guess. Add button to submit guess, iterate guesscount and reveal cards
+1) Add iterator to tell user how many guesses they have had and also tell the smart contract,
+   iterates whenever submit button is clicked
+2) Build board state map for clue giver to see
+3) Build separate views for guesser and clue giver respectively
 -->
