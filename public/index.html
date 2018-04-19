@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
   <title>Codenames</title>
   <link rel="stylesheet" href="main.css">
-  <!-- <link rel="stylesheet" href="https://gateway.ipfs.io/ipfs/QmeNhQMWkeDmANgj6AWfdqtdQrkvFFr88Ukoefu6Nc2XZL"> -->
   <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
 </head>
+
 <body>
   <h1 class="is-size-3 has-text-centered">Codenames</h1>
   <div class="container">
     <div class="column">
-      <button class="button is-large btn" id="0"></button>
-      <button class="button is-large btn" id="1"></button>
-      <button class="button is-large btn" id="2"></button>
+      <button class="button btn" id="0"></button>
+      <button class="button btn" id="1"></button>
+      <button class="button btn" id="2"></button>
     </div>
     <div class="column">
-      <button class="button is-large btn" id="3"></button>
-      <button class="button is-large btn" id="4"></button>
-      <button class="button is-large btn" id="5"></button>
+      <button class="button btn" id="3"></button>
+      <button class="button btn" id="4"></button>
+      <button class="button btn" id="5"></button>
     </div>
     <div class="column">
-      <button class="button is-large btn" id="6"></button>
-      <button class="button is-large btn" id="7"></button>
-      <button class="button is-large btn" id="8"></button>
+      <button class="button btn" id="6"></button>
+      <button class="button btn" id="7"></button>
+      <button class="button btn" id="8"></button>
     </div>
   </div>
   <div class="column is-3 is-offset-one-third">
@@ -57,16 +58,16 @@
       console.log(boardState)
       let arr = []
       let numSqaures = 9
-      let selectedSquares = [false,false,false,false,false,false,false,false,false]
+      let selectedSquares = [false, false, false, false, false, false, false, false, false]
 
       for (var a = 0; a < numSqaures; a++) {
         arr.push(document.getElementById(a))
-        arr[a].addEventListener("click", function() {
+        arr[a].addEventListener("click", function () {
           selectCard(event, selectedSquares)
         })
       }
 
-      document.getElementById("sumbission").addEventListener("click", function() {
+      document.getElementById("sumbission").addEventListener("click", function () {
         for (var i = 0; i < boardState.length; i++) {
           if (selectedSquares[i]) {
             flip(boardState, i)
@@ -122,11 +123,17 @@
 
   </script>
 </body>
+
 </html>
 
 <!--
+<<<<<<< HEAD
 1) Add iterator to tell user how many guesses they have had and also tell the smart contract,
    iterates whenever submit button is clicked
 2) Build board state map for clue giver to see
 3) Build separate views for guesser and clue giver respectively
 -->
+=======
+1) Clicking records user guess. Add button to submit guess, iterate guesscount and reveal cards
+-->
+>>>>>>> df0a0455aed70fda72cea71141e154505c696f74
