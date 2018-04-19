@@ -2,8 +2,11 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"> -->
+  <title>Codenames</title>
+  <link rel="stylesheet" href="main.css">
   <!-- <link rel="stylesheet" href="https://gateway.ipfs.io/ipfs/QmeNhQMWkeDmANgj6AWfdqtdQrkvFFr88Ukoefu6Nc2XZL"> -->
   <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
 </head>
@@ -11,48 +14,29 @@
 <body>
   <h1 class="is-size-3 has-text-centered">Codenames</h1>
   <div class="container">
-    <div class="columns is-mobile">
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="0"></button>
-      </div>
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="1"></button>
-      </div>
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="2"></button>
-      </div>
+    <div class="column">
+      <button class="button is-large btn" id="0"></button>
+      <button class="button is-large btn" id="1"></button>
+      <button class="button is-large btn" id="2"></button>
     </div>
-    <div class="columns is-mobile">
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="3"></button>
-      </div>
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="4"></button>
-      </div>
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="5"></button>
-      </div>
+    <div class="column">
+      <button class="button is-large btn" id="3"></button>
+      <button class="button is-large btn" id="4"></button>
+      <button class="button is-large btn" id="5"></button>
     </div>
-    <div class="columns is-mobile">
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="6"></button>
-      </div>
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="7"></button>
-      </div>
-      <div class="column is-one-third">
-        <button class="button is-large btn" id="8"></button>
-      </div>
+    <div class="column">
+      <button class="button is-large btn" id="6"></button>
+      <button class="button is-large btn" id="7"></button>
+      <button class="button is-large btn" id="8"></button>
     </div>
   </div>
   <div class="column is-3 is-offset-one-third">
     <div class="field">
       <div class="control">
+        <button id="sumbission"></button>
         <input type="text" class="input is-medium" placeholder="Send your clue">
       </div>
     </div>
-  </div>
-  </div>
   </div>
   <script>
 
@@ -72,30 +56,69 @@
 
 
     function play(boardState) {
+      console.log(boardState)
       let arr = []
       let numSqaures = 9
+      let selectedSquares = [false, false, false, false, false, false, false, false, false]
+
       for (var a = 0; a < numSqaures; a++) {
         arr.push(document.getElementById(a))
         arr[a].addEventListener("click", function () {
-          flip(boardState)
+          selectCard(event, selectedSquares)
+          // console.log(getElementID(event))
+          // console.log(selectedSquares[getElementID(event)])
+          // console.log(selectedSquares)
         })
+      }
+
+      document.getElementById("sumbission").addEventListener("click", function () {
+        for (var i = 0; i < boardState.length; i++) {
+          if (selectedSquares[i]) {
+            flip(boardState, i)
+          }
+        }
+      })
+    }
+
+    function selectCard(event, selectedSquares) {
+      if (!selectedSquares[getElementID(event)]) {
+        selectedSquares[getElementID(event)] = true
+        document.getElementById(getElementID(event)).style.backgroundColor = "grey"
+      }
+      else {
+        selectedSquares[getElementID(event)] = false
+        document.getElementById(getElementID(event)).style.backgroundColor = "white"
       }
     }
 
     // Reveals what type of card it was by looking up the corresponding index in boardState
-    function flip(boardState) {
-      if (boardState[getElementID(event)] == "S") {
-        document.getElementById(getElementID(event)).style.backgroundColor = "red"
-        document.getElementById(getElementID(event)).innerHTML = "Secret Agent";
+    // Very hacky solution to removing the text when the card gets flipped!!
+    function flip(boardState, square) {
+      if (boardState[square] == "A") {
+        document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmSsuKC5pNX3facos8xKV3ZnYuJxntU6Tmpt6Wa9SHGZ7x')"
+        document.getElementById(square).innerHTML = "."
       }
-      else if (boardState[getElementID(event)] == "B") {
-        document.getElementById(getElementID(event)).style.backgroundColor = "white"
-        document.getElementById(getElementID(event)).innerHTML = "Bystander";
+      else if (Math.random() >= 0.5) {
+        if (boardState[square] == "S") {
+          document.getElementById(square).innerHTML = "."
+          document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmdAdmje44TsMkayWgtvbj3GuXEWhUREmqMf8JrAa41DaT')"
+        }
+        else if (boardState[square] == "B") {
+          document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmUVvBXni63GLEGmSUqRCrUvcHZmQ32ijYkZML9MGM3sLn')"
+          document.getElementById(square).innerHTML = "."
+        }
       }
       else {
-        document.getElementById(getElementID(event)).style.backgroundColor = "black"
-        document.getElementById(getElementID(event)).innerHTML = "Assassin";
+        if (boardState[square] == "S") {
+          document.getElementById(square).innerHTML = "."
+          document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmbRyaKpvbDfyb4WB7BNznpxQEijShZ5ZEFceHJioqa5iw')"
+        }
+        else if (boardState[square] == "B") {
+          document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmeZDiXKgdWg6Vyg7ZRFbihjiRf2cYXfDLGCHVdQHesKdm')"
+          document.getElementById(square).innerHTML = "."
+        }
       }
+
     }
 
     var getElementID = function (event) {
@@ -103,7 +126,10 @@
     }
 
   </script>
-
 </body>
 
 </html>
+
+<!--
+1) Clicking records user guess. Add button to submit guess, iterate guesscount and reveal cards
+-->
