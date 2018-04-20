@@ -105,29 +105,27 @@ const toAscii = str => shh.extend.utils.toAscii(str)
 
 // DEFAULT VALUES
 // aka privateKeyID
-const keyPairID = 'bea9108f926e02c864c53fc0ac8e4b38e824d85a25dc0d660fc1b1d23e67449b'
-const pubKey =
-  '0x04958b2a2e51002072f1c4f5716a11b1eaad6281ca799b06a00e27a54bad3ade93a4753d5e5b6c738ee1ed20656052a633b37a9c38c0d04f2b5fd7d199c5009cea'
+// const keyPairID = 'bea9108f926e02c864c53fc0ac8e4b38e824d85a25dc0d660fc1b1d23e67449b'
+// const pubKey =
+;('0x04958b2a2e51002072f1c4f5716a11b1eaad6281ca799b06a00e27a54bad3ade93a4753d5e5b6c738ee1ed20656052a633b37a9c38c0d04f2b5fd7d199c5009cea')
 
 const topic = 'player_combo_uniq_id'
+
+const setUp = () => shh.newKeyPair()
+
+const keyPairID = setUp()
+
+// keyPairID.then(console.log).catch(console.log)
+// keyPairID.then(console.log).catch(console.log)
+const pubKey = keyPairID.then(id => shh.getPublicKey(id))
 
 const filter = topic => ({
   // topics: [fromAscii(topic)],
   // privateKeyID is the same as the asymKeyId which newKeyPair returns
-  privateKeyID: keyPairID
+  privateKeyID: keyPairID.then().catch(console.log)
 })
 
-// const prepareAndSendMsg = () => {
-//   shh
-//     .newKeyPair()
-//     .then(id =>
-//       shh
-//         .getPublicKey(id)
-//         .then(sendMsg)
-//         .catch(console.log)
-//     )
-//     .catch(console.log)
-// }
+const sendMsg = () => pubKey.then(sendMsg).catch(console.log)
 
 let msgs = []
 

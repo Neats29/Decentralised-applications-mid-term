@@ -1,11 +1,12 @@
 .column {
-  margin: 5px;
+  /* margin: 5px; */
 }
 
-.button {
+.btn {
   width: 190px;
   height: 140px;
   display: inline-block;
   border-radius: 16px;
   font-size: 20px;
+  margin: 0 10px;
 }
