@@ -107,7 +107,7 @@ const toAscii = str => shh.extend.utils.toAscii(str)
 // aka privateKeyID
 // const keyPairID = 'bea9108f926e02c864c53fc0ac8e4b38e824d85a25dc0d660fc1b1d23e67449b'
 // const pubKey =
-;('0x04958b2a2e51002072f1c4f5716a11b1eaad6281ca799b06a00e27a54bad3ade93a4753d5e5b6c738ee1ed20656052a633b37a9c38c0d04f2b5fd7d199c5009cea')
+// ;('0x04958b2a2e51002072f1c4f5716a11b1eaad6281ca799b06a00e27a54bad3ade93a4753d5e5b6c738ee1ed20656052a633b37a9c38c0d04f2b5fd7d199c5009cea')
 
 const topic = 'player_combo_uniq_id'
 
@@ -117,33 +117,49 @@ const keyPairID = setUp()
 
 // keyPairID.then(console.log).catch(console.log)
 // keyPairID.then(console.log).catch(console.log)
+
 const pubKey = keyPairID.then(id => shh.getPublicKey(id))
 
-const filter = topic => ({
+const filter = topic => {
+  let f = {}
+  return new Promise((resolve, reject) => {
+    keyPairID
+      .then(id => {
+        f.privateKeyID = id
+        f.topics = ['0x07678231']
+        resolve(f)
+      })
+      .catch(console.log)
+  })
+
   // topics: [fromAscii(topic)],
   // privateKeyID is the same as the asymKeyId which newKeyPair returns
-  privateKeyID: keyPairID.then().catch(console.log)
-})
-
-const sendMsg = () => pubKey.then(sendMsg).catch(console.log)
+  // return { privateKeyID: '78e65df25b29acc1708c1cee0ab59f3481e35a153861ed8c794e5b33ece4866e' }
+}
 
 let msgs = []
 
+const receiveMsgs = messages => {
+  for (let msg of messages) {
+    let message = toAscii(msg.payload)
+    msgs.push({ name: message.name, text: message.text })
+  }
+}
+
 const config = filter => {
-  shh
-    .newMessageFilter(filter(topic))
-    .then(filterId => {
-      setInterval(() => {
-        shh
-          .getFilterMessages(filterId)
-          .then(messages => {
-            for (let msg of messages) {
-              let message = toAscii(msg.payload)
-              msgs.push({ name: message.name, text: message.text })
-            }
-          })
-          .then(sendMsg(pubKey))
-      }, 1000)
+  filter(topic)
+    .then(filter => {
+      shh.newMessageFilter(filter).then(filterId => {
+        setInterval(() => {
+          shh
+            .getFilterMessages(filterId)
+            .then(messages => {
+              // console.log(messages && messages[0] && toAscii(messages[0].payload))
+              return messages && messages[0] && toAscii(messages[0].payload)
+            })
+            .then(send()) //This shouldn't be here, just needs to be called a little after config is called, config is called once, wherease send is called everytime the user sends a clue
+        }, 1000)
+      })
     })
     .catch(console.log)
 }
@@ -152,9 +168,11 @@ const sendMsg = pubKey => {
   var clue = 'my_clue' //take text from the input box
   var payload = fromAscii(clue)
   shh
-    .post({ pubKey, payload, ttl: 1000, powTarget: 2.01, powTime: 2, topic: '0x07678231' })
+    .post({ pubKey, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic: '0x07678231' })
     .then(console.log)
     .catch(console.log)
 }
 
-// config(filter)
+const send = () => pubKey.then(sendMsg).catch()
+
+config(filter) //TODO: hooked up to START button
