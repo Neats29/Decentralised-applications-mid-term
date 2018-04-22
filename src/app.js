@@ -1,5 +1,6 @@
 const express = require('express')
 const initBoard = require('./init-board')
+// const initBoard = require('./game')
 
 const app = express()
 app.use(express.static('public'))

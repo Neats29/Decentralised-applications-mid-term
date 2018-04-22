@@ -7,16 +7,18 @@ pragma solidity ^0.4.0;
 
 contract CodeNames {
 
-    uint guess = 0;
+    uint guesses = 0;
     bool[] boardState = [false, false, false, false, false, false, false, false, false];
 
     // Player 1 clicks on attack board to fire shot
     // Board updates
 
     // SOL
+    /* event GuessCounter(uint guesses); */
+
     function GuessCounter() public returns (uint){
-        guess += 1;
-        return guess; 
+        guesses += 1;
+        return guesses;
     }
 
     function BoardState(uint square) public returns (bool[])  {
@@ -29,6 +31,3 @@ contract CodeNames {
         return winner;
     }
 }
-
-
-
