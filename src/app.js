@@ -20,9 +20,19 @@ app.get('/init-board', function(req, res) {
     randomWords: []
   }
 
-  // console.log(game())
-
   res.send(initBoard(config))
+})
+
+// app.get('/start', (req, res) => {
+//   const topic = '0x07678231' //needs to be 8 characters, work this out when at the start of the game
+
+//   res.send(game(topic).start())
+// })
+
+app.get('/send-clue', (req, res) => {
+  const topic = '0x07678231' //needs to be 8 characters, work this out when at the start of the game
+
+  res.send(game(topic).send())
 })
 
 app.listen(3000)

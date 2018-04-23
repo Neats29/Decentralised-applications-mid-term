@@ -45,7 +45,6 @@ var shh = web3.shh
 
 const fromAscii = str => shh.extend.utils.fromAscii(str)
 const toAscii = str => shh.extend.utils.toAscii(str)
-const topic = '0x07678231' //needs to be 8 characters, work this out when at the start of the game
 
 const setUp = () => shh.newKeyPair()
 
@@ -54,13 +53,13 @@ const keyPairID = setUp()
 // keyPairID.then(console.log).catch(console.log)
 // keyPairID.then(console.log).catch(console.log)
 
-const pubKey = keyPairID.then(id => shh.getPublicKey(id))
-
 const filter = topic => {
   let f = {}
+
   return new Promise((resolve, reject) => {
     keyPairID
       .then(id => {
+        // console.log('ID>>>>>>>>>>:', id)
         // privateKeyID is the same as the asymKeyId which newKeyPair returns
         f.privateKeyID = id
         f.topics = [topic]
@@ -79,33 +78,36 @@ const receiveMsgs = messages => {
   }
 }
 
-const config = filter => {
+const config = topic => {
   filter(topic)
     .then(filter => {
       shh.newMessageFilter(filter).then(filterId => {
         setInterval(() => {
-          shh
-            .getFilterMessages(filterId)
-            .then(messages => {
-              // console.log(messages && messages[0] && toAscii(messages[0].payload))
-              return messages && messages[0] && toAscii(messages[0].payload)
-            })
-            .then(send()) //This shouldn't be here, just needs to be called a little after config is called, config is called once, wherease send is called everytime the user sends a clue
+          shh.getFilterMessages(filterId).then(messages => {
+            console.log(messages && messages[0] && toAscii(messages[0].payload))
+            return messages && messages[0] && toAscii(messages[0].payload)
+          })
+          // .then(send()) //This shouldn't be here, just needs to be called a little after config is called, config is called once, wherease send is called everytime the user sends a clue
         }, 1000)
       })
     })
     .catch(console.log)
 }
 
-const sendMsg = pubKey => {
+const pubKey = keyPairID.then(id => shh.getPublicKey(id))
+
+const sendMsg = (topic, p) => {
   var clue = 'my_clue' //take text from the input box
   var payload = fromAscii(clue)
   shh
-    .post({ pubKey, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic })
-    .then(console.log)
+    .post({ pubKey: p, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic })
+    .then(config(topic))
     .catch(console.log)
 }
 
-const send = () => pubKey.then(sendMsg).catch()
+const send = topic => pubKey.then(p => sendMsg(topic, p)).catch()
 
-config(filter) //TODO: hooked up to START button
+module.exports = topic => ({
+  // start: () => config(topic),
+  send: () => send(topic)
+})

@@ -34,8 +34,8 @@
       <div class="control">
         <button id="sumbission"></button>
         <input type="text" class="input is-medium" placeholder="Send your clue">
-        <button id="">Setup whisper</button>
-        <button id="">Send Clue</button>
+        <!-- <button id="start">Start Whisper</button> -->
+        <button id="send">Send Clue</button>
       </div>
     </div>
   </div>
@@ -125,6 +125,22 @@
     var getElementID = function (event) {
       return event.path[0].id
     }
+
+
+    // CLUE SECTION
+
+    // document.getElementById("start").addEventListener("click", function () {
+    //   fetch('/start').then(res.json()).then(function (data) {
+    //     console.log(data)
+    //   })
+    // })
+
+    document.getElementById("send").addEventListener("click", function () {
+      console.log("clicked")
+      fetch('/send-clue').then(res.json()).then(function (data) {
+        console.log(data)
+      })
+    })
 
   </script>
 </body>
