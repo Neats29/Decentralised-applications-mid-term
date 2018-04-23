@@ -4,17 +4,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Codenames</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+  <title>Codenames</title>
   <link rel="stylesheet" href="main.css">
-  <!-- <script type="text/javascript" src="../src/initBoard.js"></script> -->
   <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
 </head>
 
 <body>
   <h1 class="is-size-3 has-text-centered">Codenames</h1>
   <div class="container">
-    <div class="cards">
+    <div class="cards" id="spymasterCards">
       <div class="column">
         <button class="button btn" id="0"></button>
         <button class="button btn" id="1"></button>
@@ -31,47 +30,53 @@
         <button class="button btn" id="8"></button>
       </div>
     </div>
+    <div class="card_map">
+      <div class="column">
+        <button class="button is_small" id="card_map_0"></button>
+        <button class="button is_small" id="card_map_1"></button>
+        <button class="button is_small" id="card_map_2"></button>
+      </div>
+      <div class="column">
+        <button class="button is_small" id="card_map_3"></button>
+        <button class="button is_small" id="card_map_4"></button>
+        <button class="button is_small" id="card_map_5"></button>
+      </div>
+      <div class="column">
+        <button class="button is_small" id="card_map_6"></button>
+        <button class="button is_small" id="card_map_7"></button>
+        <button class="button is_small" id="card_map_8"></button>
+      </div>
+    </div>
   </div>
   <div class="column is-3 is-offset-one-third">
     <div class="field">
       <div class="control">
-        <button id="sumbission"></button>
-        <input type="text" class="input is-medium" id="clue" placeholder="Send your clue">
-        <!-- <button id="start">Start Whisper</button> -->
-        <button id="send">Send Clue</button>
-        <label for="button">Submit answer</label>
-        <button id="submission"></button>
-        <div id="guessCount"></div>
+        <input type="text" class="input is-medium" placeholder="Send your clue">
       </div>
     </div>
   </div>
   <script>
+
     // on page load
     document.addEventListener("DOMContentLoaded", function () {
       fetch('/init-board').then(function (res) {
-        // console.log(res.json())
         return res.json()
       }).then(function (data) {
-        document.getElementById("guessCount").innerHTML = "Guesses: " + data.guessCount
-        // data.guessCount = 0
         let index = 0
         data.boardState.forEach(function (a, i) {
           document.getElementById(i).innerHTML = data.randomWords[index]
           index++
         })
-        // console.log(data.boardSize);
-        play(data.boardState, data.guessCount)
+        play(data.boardState)
       }).catch(console.log)
-
     });
 
 
-
-    function play(boardState, guessCount) {
+    function play(boardState) {
+      console.log(boardState)
       let arr = []
       let numSqaures = 9
       let selectedSquares = [false, false, false, false, false, false, false, false, false]
-      let gameOver = false
 
       for (var a = 0; a < numSqaures; a++) {
         arr.push(document.getElementById(a))
@@ -80,21 +85,29 @@
         })
       }
 
-      document.getElementById("submission").addEventListener("click", function () {
+      renderCardMap(boardState)
+
+      document.getElementById("sumbission").addEventListener("click", function () {
         for (var i = 0; i < boardState.length; i++) {
           if (selectedSquares[i]) {
-            flip(boardState, i, gameOver, guessCount)
-            if (boardState[i] == "A") {
-              console.log("gameOver");
-              guessCount += 100
-              gameOver = true
-              endGame(gameOver, guessCount)
-            }
+            flip(boardState, i)
           }
         }
-        guessCount++
-        document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
       })
+    }
+
+    function renderCardMap(boardState) {
+      for (var i = 0; i < boardState.length; i++) {
+        if (boardState[i] == "A") {
+          document.getElementById("card_map_"+i).style.backgroundColor = "black"
+        }
+        else if (boardState[i] == "S") {
+          document.getElementById("card_map_"+i).style.backgroundColor = "red"
+        }
+        else {
+          document.getElementById("card_map_"+i).style.backgroundColor = "#A9A9AB"
+        }
+      }
     }
 
     function selectCard(event, selectedSquares) {
@@ -104,13 +117,13 @@
       }
       else {
         selectedSquares[getElementID(event)] = false
-        document.getElementById(getElementID(event)).style.backgroundColor = "#E4C07C"
+        document.getElementById(getElementID(event)).style.backgroundColor = "white"
       }
     }
 
     // Reveals what type of card it was by looking up the corresponding index in boardState
     // Very hacky solution to removing the text when the card gets flipped!!
-    function flip(boardState, square, gameOver, guessCount) {
+    function flip(boardState, square) {
       if (boardState[square] == "A") {
         document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmSsuKC5pNX3facos8xKV3ZnYuJxntU6Tmpt6Wa9SHGZ7x')"
         document.getElementById(square).innerHTML = "."
@@ -135,55 +148,11 @@
           document.getElementById(square).innerHTML = "."
         }
       }
+
     }
 
     var getElementID = function (event) {
       return event.path[0].id
-    }
-
-
-    // CLUE SECTION
-
-    // document.getElementById("start").addEventListener("click", function () {
-    //   fetch('/start').then(res.json()).then(function (data) {
-    //     console.log(data)
-    //   })
-    // })
-
-    document.getElementById("send").addEventListener("click", function () {
-      const clue = document.getElementById("clue").value
-
-      if (clue) {
-        const req = {
-          clue
-        }
-        return fetch('/send-clue', {
-          body: JSON.stringify(req),
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            // 'Accept': 'text/plain'
-          },
-        })
-          .then(function (res) { return res.json() }).then(function (data) {
-            console.log(data)
-          }).catch(console.log)
-      }
-
-    })
-
-
-
-
-    function endGame(gameOver, guessCount) {
-      setTimeout(function () {
-        if (gameOver == true) {
-          if (window.confirm("Game over.\nFinalScore: " + guessCount)) {
-            window.location.href = "leaderboard.html";
-          }
-          else { window.location.href = "landing.html"; }
-        }
-      }, 3000);
     }
 
   </script>

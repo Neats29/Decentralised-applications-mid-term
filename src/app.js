@@ -1,14 +1,11 @@
 const express = require('express')
+var bodyParser = require('body-parser')
 const initBoard = require('./init-board')
 const game = require('./game')
 
-// const Web3 = require('web3')
-// const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-
-// var shh = web3.shh
-
 const app = express()
 app.use(express.static('public'))
+app.use(bodyParser.json())
 
 app.get('/init-board', function(req, res) {
   // this might come from the sol file?
@@ -29,31 +26,15 @@ app.get('/init-board', function(req, res) {
 //   res.send(game(topic).start())
 // })
 
-app.get('/send-clue', (req, res) => {
+app.post('/send-clue', (req, res) => {
   const topic = '0x07678231' //needs to be 8 characters, work this out when at the start of the game
-
-  res.send(game(topic).send())
+  res.send(game(topic, req.body.clue).send())
 })
 
 app.listen(3000)
-
-// const play = () => {}
-
-// // const fireShot = () => {
-// //   // the frontent fires a click event which calls this func
-// //   //update number of total guesses in that round
-// // }
 
 // const updateBoard = () => {
 //   // if their guess corresponds to the assassin, the guessers loses, calls ReturnResults()
 //   // while there are undiscovered agents, the game continues
 //   // once finished call ReturnResults()
-// }
-
-// const returnResults = () => {
-//   // stores the result on the blockchain
-// }
-
-// const getGuess = () => {
-//   //onClick returns index number
 // }

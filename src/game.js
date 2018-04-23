@@ -1,6 +1,12 @@
 const words = require('./words')
 const Web3 = require('web3')
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+// const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+if (typeof web3 !== 'undefined') {
+  web3 = new Web3(web3.currentProvider)
+} else {
+  // set the provider you want from Web3.providers
+  web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+}
 
 const CodenamesABI = [
   {
@@ -39,6 +45,9 @@ const Codenames = new web3.eth.Contract(CodenamesABI, PlayerAddress, {
   gas: 3000000
 })
 
+// var CodeNames = CodeNames.at('0x75A92CAD37c3CeC903352f9Dd754Df1d1bfE80C0')
+// console.log(CodeNames)
+
 // ------ WHISPER CODE ---------
 
 var shh = web3.shh
@@ -59,7 +68,6 @@ const filter = topic => {
   return new Promise((resolve, reject) => {
     keyPairID
       .then(id => {
-        // console.log('ID>>>>>>>>>>:', id)
         // privateKeyID is the same as the asymKeyId which newKeyPair returns
         f.privateKeyID = id
         f.topics = [topic]
@@ -96,18 +104,19 @@ const config = topic => {
 
 const pubKey = keyPairID.then(id => shh.getPublicKey(id))
 
-const sendMsg = (topic, p) => {
-  var clue = 'my_clue' //take text from the input box
+const sendMsg = (topic, pkey, clue) => {
   var payload = fromAscii(clue)
   shh
-    .post({ pubKey: p, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic })
+    .post({ pubKey: pkey, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic })
     .then(config(topic))
     .catch(console.log)
 }
 
-const send = topic => pubKey.then(p => sendMsg(topic, p)).catch()
+const send = (topic, clue) => {
+  return pubKey.then(p => sendMsg(topic, p, clue)).catch(console.log)
+}
 
-module.exports = topic => ({
+module.exports = (topic, clue) => ({
   // start: () => config(topic),
-  send: () => send(topic)
+  send: () => send(topic, clue)
 })
