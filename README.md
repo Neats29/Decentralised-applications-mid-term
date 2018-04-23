@@ -2,6 +2,7 @@
 
 * `npm install`
 * `node src/app.js`
+* `geth --shh --rpc --rpccorsdomain '*'` for whisper
 
 ### Tasks
 
