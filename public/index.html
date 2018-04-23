@@ -35,6 +35,10 @@
   <div class="column is-3 is-offset-one-third">
     <div class="field">
       <div class="control">
+        <button id="sumbission"></button>
+        <input type="text" class="input is-medium" id="clue" placeholder="Send your clue">
+        <!-- <button id="start">Start Whisper</button> -->
+        <button id="send">Send Clue</button>
         <label for="button">Submit answer</label>
         <button id="submission"></button>
         <div id="guessCount"></div>
@@ -58,6 +62,7 @@
         // console.log(data.boardSize);
         play(data.boardState, data.guessCount)
       }).catch(console.log)
+
     });
 
 
@@ -136,13 +141,47 @@
       return event.path[0].id
     }
 
+
+    // CLUE SECTION
+
+    // document.getElementById("start").addEventListener("click", function () {
+    //   fetch('/start').then(res.json()).then(function (data) {
+    //     console.log(data)
+    //   })
+    // })
+
+    document.getElementById("send").addEventListener("click", function () {
+      const clue = document.getElementById("clue").value
+
+      if (clue) {
+        const req = {
+          clue
+        }
+        return fetch('/send-clue', {
+          body: JSON.stringify(req),
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            // 'Accept': 'text/plain'
+          },
+        })
+          .then(function (res) { return res.json() }).then(function (data) {
+            console.log(data)
+          }).catch(console.log)
+      }
+
+    })
+
+
+
+
     function endGame(gameOver, guessCount) {
       setTimeout(function () {
         if (gameOver == true) {
           if (window.confirm("Game over.\nFinalScore: " + guessCount)) {
-            window.location.href="leaderboard.html";
+            window.location.href = "leaderboard.html";
           }
-          else {window.location.href="landing.html";}
+          else { window.location.href = "landing.html"; }
         }
       }, 3000);
     }
