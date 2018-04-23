@@ -1,4 +1,6 @@
 const express = require('express')
+// var server = require('http').createServer(express).listen(8080);
+// var io = require('socket.io').listen(server);
 const initBoard = require('./init-board')
 // const initBoard = require('./game')
 
