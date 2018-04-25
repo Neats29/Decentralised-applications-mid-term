@@ -24,7 +24,10 @@ app.get('/init-board', function(req, res) {
 
 app.post('/send-clue', (req, res) => {
   const topic = '0x07678231' //needs to be 8 characters, work this out when at the start of the game
-  res.send(game(topic, req.body.clue).send())
+
+  game(topic, req.body.clue)
+    .send()
+    .then(data => res.send(data))
 })
 
 app.listen(3000)

@@ -84,14 +84,15 @@ const receiveMsgs = messages => {
 }
 
 const config = topic => {
+  let clue = ''
   return new Promise((resolve, reject) => {
     filter(topic)
       .then(filter => {
         shh.newMessageFilter(filter).then(filterId => {
           setInterval(() => {
             shh.getFilterMessages(filterId).then(messages => {
-              console.log(messages && messages[0] && toAscii(messages[0].payload))
-              resolve(messages && messages[0] && toAscii(messages[0].payload))
+              clue = messages && messages[0] && toAscii(messages[0].payload)
+              resolve({ clue })
             })
           }, 1000)
         })
@@ -104,10 +105,12 @@ const pubKey = keyPairID.then(id => shh.getPublicKey(id))
 
 const sendMsg = (topic, pkey, clue) => {
   var payload = fromAscii(clue)
-  shh
-    .post({ pubKey: pkey, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic })
-    .then(config(topic))
-    .catch(console.log)
+  return new Promise((resolve, reject) => {
+    shh
+      .post({ pubKey: pkey, payload, ttl: 7, powTarget: 2.01, powTime: 100, topic })
+      .then(config(topic).then(res => resolve(res)))
+      .catch(console.log)
+  })
 }
 
 const send = (topic, clue) => {
