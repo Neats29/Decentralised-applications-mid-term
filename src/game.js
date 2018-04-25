@@ -59,9 +59,6 @@ const setUp = () => shh.newKeyPair()
 
 const keyPairID = setUp()
 
-// keyPairID.then(console.log).catch(console.log)
-// keyPairID.then(console.log).catch(console.log)
-
 const filter = topic => {
   let f = {}
 
@@ -87,29 +84,33 @@ const receiveMsgs = messages => {
 }
 
 const config = topic => {
-  filter(topic)
-    .then(filter => {
-      shh.newMessageFilter(filter).then(filterId => {
-        setInterval(() => {
-          shh.getFilterMessages(filterId).then(messages => {
-            console.log(messages && messages[0] && toAscii(messages[0].payload))
-            return messages && messages[0] && toAscii(messages[0].payload)
-          })
-          // .then(send()) //This shouldn't be here, just needs to be called a little after config is called, config is called once, wherease send is called everytime the user sends a clue
-        }, 1000)
+  let clue = ''
+  return new Promise((resolve, reject) => {
+    filter(topic)
+      .then(filter => {
+        shh.newMessageFilter(filter).then(filterId => {
+          setInterval(() => {
+            shh.getFilterMessages(filterId).then(messages => {
+              clue = messages && messages[0] && toAscii(messages[0].payload)
+              resolve({ clue })
+            })
+          }, 1000)
+        })
       })
-    })
-    .catch(console.log)
+      .catch(console.log)
+  })
 }
 
 const pubKey = keyPairID.then(id => shh.getPublicKey(id))
 
 const sendMsg = (topic, pkey, clue) => {
   var payload = fromAscii(clue)
-  shh
-    .post({ pubKey: pkey, payload, ttl: 1000, powTarget: 10.01, powTime: 10, topic })
-    .then(config(topic))
-    .catch(console.log)
+  return new Promise((resolve, reject) => {
+    shh
+      .post({ pubKey: pkey, payload, ttl: 7, powTarget: 2.01, powTime: 100, topic })
+      .then(config(topic).then(res => resolve(res)))
+      .catch(console.log)
+  })
 }
 
 const send = (topic, clue) => {
@@ -117,6 +118,5 @@ const send = (topic, clue) => {
 }
 
 module.exports = (topic, clue) => ({
-  // start: () => config(topic),
   send: () => send(topic, clue)
 })

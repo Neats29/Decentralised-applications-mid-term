@@ -1,5 +1,5 @@
 html {
-  background: radial-gradient(circle, #FFE850, #DC6545, #8B1137) no-repeat center center fixed;
+  background: radial-gradient(circle, #ffe850, #dc6545, #8b1137) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -30,7 +30,7 @@ html {
 }
 
 .btn {
-  background-color: #E4C07C;
+  background-color: #e4c07c;
   width: 190px;
   height: 140px;
   display: inline-block;
@@ -47,4 +47,8 @@ html {
 .card_map {
   width: 33%;
   display: inline-block;
+}
+
+#view-clue {
+  font-size: 30px;
 }

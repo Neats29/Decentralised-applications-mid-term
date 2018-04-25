@@ -13,7 +13,7 @@
 2.  [x] set up the board (data structures in the backend)
 3.  [ ] set up the players (take their name, then randomise who is the clue giver and who is the guesser, then alternate after that?)
 4.  [ ] click event on the clue input box, needs to talk to web3 which talks to whisper??
-5.  [ ] Any assets or just css to represent the agents, assassin and bystanders? (could use IPFS if assets used)
+5.  [x] Any assets or just css to represent the agents, assassin and bystanders? (could use IPFS if assets used)
 6.  [x] create a list of words
 7.  [ ] setup the whisper boilerplate and send the input
 8.  [ ] how do we deploy?
