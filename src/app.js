@@ -1,10 +1,6 @@
 const express = require('express')
-<<<<<<< HEAD
-// var server = require('http').createServer(express).listen(8080);
-// var io = require('socket.io').listen(server);
-=======
 var bodyParser = require('body-parser')
->>>>>>> e7cb6a5fe520d17bd622aa720fc738992a9c9779
+// >>>>>>> e7cb6a5fe520d17bd622aa720fc738992a9c9779
 const initBoard = require('./init-board')
 const game = require('./game')
 

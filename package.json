@@ -9,10 +9,16 @@
   "author": "Henry & Anita",
   "license": "UNLICENSED",
   "dependencies": {
+    "ajv": "^6.4.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "ganache-cli": "^6.1.0",
     "nodemon": "^1.17.3",
     "web3": "^1.0.0-beta.34"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.15"
   }
 }
