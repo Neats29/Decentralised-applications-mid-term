@@ -7,7 +7,6 @@
   <title>Codenames</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
   <link rel="stylesheet" href="main.css">
-  <!-- <script type="text/javascript" src="../src/initBoard.js"></script> -->
   <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
 </head>
 
@@ -37,8 +36,8 @@
       <div class="control">
         <button id="sumbission"></button>
         <input type="text" class="input is-medium" id="clue" placeholder="Send your clue">
-        <!-- <button id="start">Start Whisper</button> -->
         <button id="send">Send Clue</button>
+        <div id="view-clue"></div>
         <label for="button">Submit answer</label>
         <button id="submission"></button>
         <div id="guessCount"></div>
@@ -144,12 +143,6 @@
 
     // CLUE SECTION
 
-    // document.getElementById("start").addEventListener("click", function () {
-    //   fetch('/start').then(res.json()).then(function (data) {
-    //     console.log(data)
-    //   })
-    // })
-
     document.getElementById("send").addEventListener("click", function () {
       const clue = document.getElementById("clue").value
 
@@ -162,7 +155,6 @@
           method: 'POST',
           headers: {
             'content-type': 'application/json',
-            // 'Accept': 'text/plain'
           },
         })
           .then(function (res) { return res.json() }).then(function (data) {
@@ -192,13 +184,9 @@
 </html>
 
 <!--
-<<<<<<< HEAD
 1) Add iterator to tell user how many guesses they have had and also tell the smart contract,
    iterates whenever submit button is clicked
 2) Build board state map for clue giver to see
 3) Build separate views for guesser and clue giver respectively
 -->
-<!-- =======
-1) Clicking records user guess. Add button to submit guess, iterate guesscount and reveal cards
--->
-<!-- >>>>>>> df0a0455aed70fda72cea71141e154505c696f74 -->
+<!-- 1) Clicking records user guess. Add button to submit guess, iterate guesscount and reveal cards -->-->

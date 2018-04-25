@@ -59,9 +59,6 @@ const setUp = () => shh.newKeyPair()
 
 const keyPairID = setUp()
 
-// keyPairID.then(console.log).catch(console.log)
-// keyPairID.then(console.log).catch(console.log)
-
 const filter = topic => {
   let f = {}
 
@@ -87,19 +84,20 @@ const receiveMsgs = messages => {
 }
 
 const config = topic => {
-  filter(topic)
-    .then(filter => {
-      shh.newMessageFilter(filter).then(filterId => {
-        setInterval(() => {
-          shh.getFilterMessages(filterId).then(messages => {
-            console.log(messages && messages[0] && toAscii(messages[0].payload))
-            return messages && messages[0] && toAscii(messages[0].payload)
-          })
-          // .then(send()) //This shouldn't be here, just needs to be called a little after config is called, config is called once, wherease send is called everytime the user sends a clue
-        }, 1000)
+  return new Promise((resolve, reject) => {
+    filter(topic)
+      .then(filter => {
+        shh.newMessageFilter(filter).then(filterId => {
+          setInterval(() => {
+            shh.getFilterMessages(filterId).then(messages => {
+              console.log(messages && messages[0] && toAscii(messages[0].payload))
+              resolve(messages && messages[0] && toAscii(messages[0].payload))
+            })
+          }, 1000)
+        })
       })
-    })
-    .catch(console.log)
+      .catch(console.log)
+  })
 }
 
 const pubKey = keyPairID.then(id => shh.getPublicKey(id))
@@ -117,6 +115,5 @@ const send = (topic, clue) => {
 }
 
 module.exports = (topic, clue) => ({
-  // start: () => config(topic),
   send: () => send(topic, clue)
 })
