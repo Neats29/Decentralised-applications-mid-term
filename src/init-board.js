@@ -2,11 +2,6 @@ const words = require('./words')
 
 const rand = max => Math.floor(Math.random() * Math.floor(max))
 
-const recordGuess = () => {
-  guessCount++
-  console.log(guessCount);
-}
-
 // Pick 9 (boardSize) words from the list of words
 // Make sure there are no duplicates
 const randomiseWords = (i, config) => {
@@ -70,8 +65,6 @@ module.exports = initBoard = config => {
 
   addBystanders(0, config, bystanderCount)
 
-  console.log("GuessCount Test");
-  console.log(guessCount);
 
   if (boardInitialisedCorrectly(config, bystanderCount)) {
     return { boardState, randomWords, guessCount }

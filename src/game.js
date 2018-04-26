@@ -1,138 +1,146 @@
 const words = require('./words')
 const Web3 = require('web3')
-
-// const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider)
 } else {
-  // set the provider you want from Web3.providers
   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 }
+web3.eth.defaultAccount = web3.eth.accounts[0];
+// var CodenamesABI = [
+// 	{
+// 		"constant": true,
+// 		"inputs": [],
+// 		"name": "gameover",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [],
+// 		"name": "spymaster",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"name": "boardState",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [],
+// 		"name": "guesser",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [
+// 			{
+// 				"name": "square",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"name": "updateBoardState",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool[]"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [],
+// 		"name": "endGame",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [],
+// 		"name": "guessCounter",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [],
+// 		"name": "guessCount",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	}
+// ]
+// var CodenamesInstance = new web3.eth.Contract(CodenamesABI, "0xa0c1ac24821efd4d49f1359ef575caa32d3fdcb7")
 
-var CodenamesABI = [
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "gameover",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "spymaster",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "boardState",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "guesser",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "square",
-				"type": "uint256"
-			}
-		],
-		"name": "updateBoardState",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "endGame",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "guessCounter",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "guessCount",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+// // Bytecode below doesn't appear to be required. The ABI is enough
+
+// CodenamesInstance.methods.guessCounter().call(function(error, result){
+//   if(!error){
+//     console.log(result);
+//     }
+//  else
+//    console.error(error);
+//  });
 // var CodenamesBytecode = {
 //   {
 // 	"linkReferences": {},
@@ -141,18 +149,6 @@ var CodenamesABI = [
 // 	"sourceMap": "25:752:0:-;;;76:1;51:26;;164:5;141:28;;;;;;;;;;;;;;;;;;;;175:90;;;;;;;;;203:5;175:90;;;;;;;;210:5;175:90;;;;;;;;217:5;175:90;;;;;;;;224:5;175:90;;;;;;;;231:5;175:90;;;;;;;;238:5;175:90;;;;;;;;245:5;175:90;;;;;;;;252:5;175:90;;;;;;;;259:5;175:90;;;;;;;;;;;;;;;:::i;:::-;;25:752;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:752:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;"
 // }
 // }
-// var Codenames = new web3.eth.Contract(CodenamesABI, CodenamesBytecode, {
-//   from: web3.eth.accounts[0],
-//   gas: 3000000
-// })
-var CodenamesInstance = new web3.eth.Contract(CodenamesABI, "0xfc4dd8c2c66b782776b28033dcfce49f5a692829")
-// const PlayerAddress = '0x2D46F0B94F3efbC09aCa25Be0fe4fF50204DD5d4'
-
-// THIS IS THE CLOSEST I HAVE COME TO GETTING CONTRACT DATA IN THE BROWSER
-CodenamesInstance.methods.guessCounter().call().then(
-receipt => {
-  document.querySelector('#guessCount').innerHTML = guessCounter();
-})
 
 // ------ WHISPER CODE ---------
 var shh = web3.shh

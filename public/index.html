@@ -7,7 +7,7 @@
   <title>Codenames</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
   <link rel="stylesheet" href="main.css">
-  <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
+  <script src="https://rawgit.com/ethereum/web3.js/1.0/dist/web3.min.js"></script>
 </head>
 
 <body>
@@ -44,24 +44,161 @@
       </div>
     </div>
   </div>
-  <script>
-    // on page load
+  <script type="text/javascript">
+    // const words = require('./words')
+    if (typeof web3 !== 'undefined') {
+      web3 = new Web3(web3.currentProvider)
+    } else {
+      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+    }
+
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+    var CodenamesABI = [
+    	{
+    		"constant": true,
+    		"inputs": [],
+    		"name": "gameover",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "bool"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	},
+    	{
+    		"constant": true,
+    		"inputs": [],
+    		"name": "spymaster",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "address"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	},
+    	{
+    		"constant": true,
+    		"inputs": [
+    			{
+    				"name": "",
+    				"type": "uint256"
+    			}
+    		],
+    		"name": "boardState",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "bool"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	},
+    	{
+    		"constant": true,
+    		"inputs": [],
+    		"name": "guesser",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "address"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	},
+    	{
+    		"constant": false,
+    		"inputs": [
+    			{
+    				"name": "square",
+    				"type": "uint256"
+    			}
+    		],
+    		"name": "updateBoardState",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "bool[]"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "nonpayable",
+    		"type": "function"
+    	},
+    	{
+    		"constant": false,
+    		"inputs": [],
+    		"name": "endGame",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "bool"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "nonpayable",
+    		"type": "function"
+    	},
+    	{
+    		"constant": false,
+    		"inputs": [],
+    		"name": "guessCounter",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "uint256"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "nonpayable",
+    		"type": "function"
+    	},
+    	{
+    		"constant": true,
+    		"inputs": [],
+    		"name": "guessCount",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "uint256"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	}
+    ]
+
+    // This should log the guessCount to the console but doesn't. Running the code in the game.js will log it to the terminal though
+    var CodenamesInstance = new web3.eth.Contract(CodenamesABI, "0xa0c1ac24821efd4d49f1359ef575caa32d3fdcb7")
+    CodenamesInstance.methods.guessCounter().call().then((result) => {
+      console.log(result);
+    })
+
     document.addEventListener("DOMContentLoaded", function () {
       fetch('/init-board').then(function (res) {
-        // console.log(res.json())
         return res.json()
       }).then(function (data) {
-        document.getElementById("guessCount").innerHTML = "Guesses: " + data.guessCount
-        data.guessCount = 0
         let index = 0
+
+        // document.getElementById("guessCount").innerHTML = "Guesses: "
         data.boardState.forEach(function (a, i) {
           document.getElementById(i).innerHTML = data.randomWords[index]
           index++
         })
-        // console.log(data.boardSize);
-        play(data.boardState, data.guessCount)
+        play(data.boardState)
       }).catch(console.log)
     });
+
 
     function play(boardState, guessCount) {
       let arr = []
@@ -89,7 +226,9 @@
         }
         guessCount++
         document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
-        })
+      })
+
+
     }
 
     function selectCard(event, selectedSquares) {
