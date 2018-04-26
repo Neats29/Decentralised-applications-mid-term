@@ -1,6 +1,4 @@
 const express = require('express')
-// var server = require('http').createServer(express).listen(8080);
-// var io = require('socket.io').listen(server);
 var bodyParser = require('body-parser')
 const initBoard = require('./init-board')
 const game = require('./game')
@@ -18,7 +16,6 @@ app.get('/init-board', function(req, res) {
     boardState: [],
     randomWords: []
   }
-
   res.send(initBoard(config))
 })
 

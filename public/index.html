@@ -52,7 +52,7 @@
         return res.json()
       }).then(function (data) {
         document.getElementById("guessCount").innerHTML = "Guesses: " + data.guessCount
-        // data.guessCount = 0
+        data.guessCount = 0
         let index = 0
         data.boardState.forEach(function (a, i) {
           document.getElementById(i).innerHTML = data.randomWords[index]
@@ -61,10 +61,7 @@
         // console.log(data.boardSize);
         play(data.boardState, data.guessCount)
       }).catch(console.log)
-
     });
-
-
 
     function play(boardState, guessCount) {
       let arr = []
@@ -84,7 +81,6 @@
           if (selectedSquares[i]) {
             flip(boardState, i, gameOver, guessCount)
             if (boardState[i] == "A") {
-              console.log("gameOver");
               guessCount += 100
               gameOver = true
               endGame(gameOver, guessCount)
@@ -93,7 +89,7 @@
         }
         guessCount++
         document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
-      })
+        })
     }
 
     function selectCard(event, selectedSquares) {
@@ -140,9 +136,7 @@
       return event.path[0].id
     }
 
-
     // CLUE SECTION
-
     document.getElementById("send").addEventListener("click", function () {
       const clue = document.getElementById("clue").value
 
@@ -164,9 +158,6 @@
           }).catch(console.log)
       }
     })
-
-
-
 
     function endGame(gameOver, guessCount) {
       setTimeout(function () {

@@ -78,4 +78,5 @@ module.exports = initBoard = config => {
   } else {
     throw new Error("The board wasn't initialised correctly")
   }
+
 }
