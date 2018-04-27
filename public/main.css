@@ -55,3 +55,7 @@ html {
 .clue-getter {
   margin: 30px;
 }
+
+#guessCount {
+  color: white;
+}

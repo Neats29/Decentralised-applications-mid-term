@@ -76,13 +76,13 @@
         return res.json()
       }).then(function (data) {
         let index = 0
-
-        // document.getElementById("guessCount").innerHTML = "Guesses: "
+        let guessCount = 0
+        document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
         data.boardState.forEach(function (a, i) {
           document.getElementById(i).innerHTML = data.randomWords[index]
           index++
         })
-        play(data.boardState)
+        play(data.boardState, guessCount)
       }).catch(console.log)
     });
 
@@ -102,6 +102,7 @@
       renderCardMap(boardState)
 
       document.getElementById("submission").addEventListener("click", function () {
+        guessCount++
         for (var i = 0; i < boardState.length; i++) {
           if (selectedSquares[i]) {
             flip(boardState, i, gameOver, guessCount)
@@ -112,8 +113,8 @@
             }
           }
         }
-        guessCount++
-        document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
+        document.getElementById("guessCount").innerHTML = ("Guesses: " + guessCount)
+
       })
 
 
@@ -207,7 +208,7 @@
     function endGame(gameOver, guessCount) {
       setTimeout(function () {
         if (gameOver == true) {
-          if (window.confirm("Game over.\nFinalScore: " + guessCount)) {
+          if (window.confirm("Game over\nFinalScore: " + guessCount + "\nPress cancel to replay or OK to move to the leaderboard")) {
             window.location.href = "leaderboard.html";
           }
           else { window.location.href = "landing.html"; }
