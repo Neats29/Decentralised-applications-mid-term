@@ -54,135 +54,136 @@
 
     web3.eth.defaultAccount = web3.eth.accounts[0];
     var CodenamesABI = [
-    	{
-    		"constant": true,
-    		"inputs": [],
-    		"name": "gameover",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "bool"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": true,
-    		"inputs": [],
-    		"name": "spymaster",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "address"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": true,
-    		"inputs": [
-    			{
-    				"name": "",
-    				"type": "uint256"
-    			}
-    		],
-    		"name": "boardState",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "bool"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": true,
-    		"inputs": [],
-    		"name": "guesser",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "address"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": false,
-    		"inputs": [
-    			{
-    				"name": "square",
-    				"type": "uint256"
-    			}
-    		],
-    		"name": "updateBoardState",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "bool[]"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "nonpayable",
-    		"type": "function"
-    	},
-    	{
-    		"constant": false,
-    		"inputs": [],
-    		"name": "endGame",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "bool"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "nonpayable",
-    		"type": "function"
-    	},
-    	{
-    		"constant": false,
-    		"inputs": [],
-    		"name": "guessCounter",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "uint256"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "nonpayable",
-    		"type": "function"
-    	},
-    	{
-    		"constant": true,
-    		"inputs": [],
-    		"name": "guessCount",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "uint256"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	}
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "gameover",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "spymaster",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "boardState",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "guesser",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "square",
+            "type": "uint256"
+          }
+        ],
+        "name": "updateBoardState",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool[]"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "endGame",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "guessCounter",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "guessCount",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
     ]
 
     // This should log the guessCount to the console but doesn't. Running the code in the game.js will log it to the terminal though
-    var CodenamesInstance = new web3.eth.Contract(CodenamesABI, "0xa0c1ac24821efd4d49f1359ef575caa32d3fdcb7")
-    CodenamesInstance.methods.guessCounter().call().then((result) => {
-      console.log(result);
-    })
+    // var CodenamesInstance = new web3.eth.Contract(CodenamesABI, "0xBbEc99775b85D346BBc828feA1Bdf71A33aA6C54")
+    // CodenamesInstance.methods.guessCounter().call().then((result) => {
+    //   console.log(result);
+    // })
+
 
     document.addEventListener("DOMContentLoaded", function () {
       fetch('/init-board').then(function (res) {
@@ -313,11 +314,3 @@
 </body>
 
 </html>
-
-<!--
-1) Add iterator to tell user how many guesses they have had and also tell the smart contract,
-   iterates whenever submit button is clicked
-2) Build board state map for clue giver to see
-3) Build separate views for guesser and clue giver respectively
--->
-<!-- 1) Clicking records user guess. Add button to submit guess, iterate guesscount and reveal cards -->-->
