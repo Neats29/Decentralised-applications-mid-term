@@ -7,7 +7,6 @@
   <title>Codenames</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
   <link rel="stylesheet" href="main.css">
-  <script src="https://rawgit.com/ethereum/web3.js/1.0/dist/web3.min.js"></script>
 </head>
 
 <body>
@@ -28,162 +27,49 @@
         <button class="button btn" id="6"></button>
         <button class="button btn" id="7"></button>
         <button class="button btn" id="8"></button>
+
       </div>
-    </div>
-  </div>
-  <div class="column is-3 is-offset-one-third">
-    <div class="field">
-      <div class="control">
-        <button id="sumbission"></button>
-        <input type="text" class="input is-medium" id="clue" placeholder="Send your clue">
-        <button id="send">Send Clue</button>
+      <div class="clue-getter">
+        <button class="button" id="submission">Submit answer</button>
+        <h1 class="note">Clue from the spymaster:</h1>
         <div id="view-clue"></div>
-        <label for="button">Submit answer</label>
-        <button id="submission"></button>
-        <div id="guessCount"></div>
+      </div>
+    </div>
+    <div class="card_map">
+      <hr>
+      <h3 class="note">Only visible to spymaster</h3>
+      <div class="column">
+        <button class="button is_small" id="card_map_0"></button>
+        <button class="button is_small" id="card_map_1"></button>
+        <button class="button is_small" id="card_map_2"></button>
+      </div>
+      <div class="column">
+        <button class="button is_small" id="card_map_3"></button>
+        <button class="button is_small" id="card_map_4"></button>
+        <button class="button is_small" id="card_map_5"></button>
+      </div>
+      <div class="column">
+        <button class="button is_small" id="card_map_6"></button>
+        <button class="button is_small" id="card_map_7"></button>
+        <button class="button is_small" id="card_map_8"></button>
+      </div>
+      <div class="column is-4">
+        <div class="field">
+          <div class="control">
+            <h3></h3>
+
+            <input type="text" class="input is-medium" id="clue" placeholder="Send your clue">
+            <button class="button" id="send">Send Clue</button>
+
+            <div id="guessCount"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  </div>
+
   <script type="text/javascript">
-    // const words = require('./words')
-    if (typeof web3 !== 'undefined') {
-      web3 = new Web3(web3.currentProvider)
-    } else {
-      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-    }
-
-    web3.eth.defaultAccount = web3.eth.accounts[0];
-    var CodenamesABI = [
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "gameover",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "spymaster",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "boardState",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "guesser",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "square",
-            "type": "uint256"
-          }
-        ],
-        "name": "updateBoardState",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool[]"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "endGame",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "guessCounter",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "guessCount",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ]
-
-    // This should log the guessCount to the console but doesn't. Running the code in the game.js will log it to the terminal though
-    // var CodenamesInstance = new web3.eth.Contract(CodenamesABI, "0xBbEc99775b85D346BBc828feA1Bdf71A33aA6C54")
-    // CodenamesInstance.methods.guessCounter().call().then((result) => {
-    //   console.log(result);
-    // })
-
 
     document.addEventListener("DOMContentLoaded", function () {
       fetch('/init-board').then(function (res) {
@@ -213,6 +99,7 @@
           selectCard(event, selectedSquares)
         })
       }
+      renderCardMap(boardState)
 
       document.getElementById("submission").addEventListener("click", function () {
         for (var i = 0; i < boardState.length; i++) {
@@ -231,6 +118,24 @@
 
 
     }
+
+
+
+
+    function renderCardMap(boardState) {
+      for (var i = 0; i < boardState.length; i++) {
+        if (boardState[i] == "A") {
+          document.getElementById("card_map_" + i).style.backgroundColor = "black"
+        }
+        else if (boardState[i] == "S") {
+          document.getElementById("card_map_" + i).style.backgroundColor = "red"
+        }
+        else {
+          document.getElementById("card_map_" + i).style.backgroundColor = "#A9A9AB"
+        }
+      }
+    }
+
 
     function selectCard(event, selectedSquares) {
       if (!selectedSquares[getElementID(event)]) {

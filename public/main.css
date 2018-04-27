@@ -44,11 +44,14 @@ html {
   display: inline-block;
 }
 
-.card_map {
-  width: 33%;
-  display: inline-block;
-}
-
 #view-clue {
   font-size: 30px;
+}
+
+.note {
+  color: white;
+}
+
+.clue-getter {
+  margin: 30px;
 }
