@@ -2,8 +2,8 @@
 
 * `npm install`
 * `ganache-cli`
-* `node src/app.js`
 * `geth --shh --rpc --rpccorsdomain '*'` for whisper
+* `node src/app.js`
 
 ### Tech stack
 
