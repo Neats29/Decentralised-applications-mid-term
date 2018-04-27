@@ -65,3 +65,7 @@ html {
   height: 40px;
   margin: 5px;
 }
+
+#guessCount {
+  color: white;
+}

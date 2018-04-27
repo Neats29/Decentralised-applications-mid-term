@@ -81,21 +81,21 @@
         return res.json()
       }).then(function (data) {
         let index = 0
-
-        // document.getElementById("guessCount").innerHTML = "Guesses: "
+        let guessCount = 0
+        document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
         data.boardState.forEach(function (a, i) {
           document.getElementById(i).innerHTML = data.randomWords[index]
           index++
         })
-        play(data.boardState)
+        play(data.boardState, guessCount)
       }).catch(console.log)
     });
-
 
     function play(boardState, guessCount) {
       let arr = []
       let numSqaures = 9
-      let selectedSquares = [false, false, false, false, false, false, false, false, false]
+      let selectedSquares = [false,false,false,false,false,false,false,false,false]
+      let flippedSquares = [false,false,false,false,false,false,false,false,false]
       let gameOver = false
 
       for (var a = 0; a < numSqaures; a++) {
@@ -107,9 +107,14 @@
       renderCardMap(boardState)
 
       document.getElementById("submission").addEventListener("click", function () {
+        guessCount++
+        spyFound = false
         for (var i = 0; i < boardState.length; i++) {
           if (selectedSquares[i]) {
-            flip(boardState, i, gameOver, guessCount)
+            // flip(boardState, i, gameOver, guessCount)
+            if (flip(boardState, i, gameOver, guessCount)) {
+              flippedSquares[i] = true
+            }
             if (boardState[i] == "A") {
               guessCount += 100
               gameOver = true
@@ -117,15 +122,20 @@
             }
           }
         }
-        guessCount++
-        document.getElementById("guessCount").innerHTML = "Guesses: " + guessCount
+        spiesFound = 0
+        for (var i = 0; i < boardState.length; i++) {
+          if (boardState[i] == "S" && flippedSquares[i]) {
+            spiesFound++
+          }
+        }
+        console.log(spiesFound);
+        document.getElementById("guessCount").innerHTML = ("Guesses: " + guessCount)
+        if (spiesFound >= 4) {
+          gameOver = true
+          endGame(gameOver, guessCount)
+        }
       })
-
-
     }
-
-
-
 
     function renderCardMap(boardState) {
       for (var i = 0; i < boardState.length; i++) {
@@ -141,7 +151,6 @@
       }
     }
 
-
     function selectCard(event, selectedSquares) {
       if (!selectedSquares[getElementID(event)]) {
         selectedSquares[getElementID(event)] = true
@@ -156,12 +165,14 @@
     // Reveals what type of card it was by looking up the corresponding index in boardState
     // Very hacky solution to removing the text when the card gets flipped!!
     function flip(boardState, square, gameOver, guessCount) {
+      spyFound=false
       if (boardState[square] == "A") {
         document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmSsuKC5pNX3facos8xKV3ZnYuJxntU6Tmpt6Wa9SHGZ7x')"
         document.getElementById(square).innerHTML = "."
       }
       else if (Math.random() >= 0.5) {
         if (boardState[square] == "S") {
+          spyFound=true
           document.getElementById(square).innerHTML = "."
           document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmdAdmje44TsMkayWgtvbj3GuXEWhUREmqMf8JrAa41DaT')"
         }
@@ -172,6 +183,7 @@
       }
       else {
         if (boardState[square] == "S") {
+          spyFound=true
           document.getElementById(square).innerHTML = "."
           document.getElementById(square).style.background = "url('https://gateway.ipfs.io/ipfs/QmbRyaKpvbDfyb4WB7BNznpxQEijShZ5ZEFceHJioqa5iw')"
         }
@@ -180,6 +192,7 @@
           document.getElementById(square).innerHTML = "."
         }
       }
+      return spyFound
     }
 
     var getElementID = function (event) {
@@ -212,7 +225,7 @@
     function endGame(gameOver, guessCount) {
       setTimeout(function () {
         if (gameOver == true) {
-          if (window.confirm("Game over.\nFinalScore: " + guessCount)) {
+          if (window.confirm("Game over\nFinalScore: " + guessCount + "\nPress Cancel to replay or OK to move to the leaderboard")) {
             window.location.href = "leaderboard.html";
           }
           else { window.location.href = "landing.html"; }
