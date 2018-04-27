@@ -91,6 +91,7 @@
       let arr = []
       let numSqaures = 9
       let selectedSquares = [false, false, false, false, false, false, false, false, false]
+      let flippedSquares = 0
       let gameOver = false
 
       for (var a = 0; a < numSqaures; a++) {
@@ -105,6 +106,7 @@
         guessCount++
         for (var i = 0; i < boardState.length; i++) {
           if (selectedSquares[i]) {
+            flippedSquares++;
             flip(boardState, i, gameOver, guessCount)
             if (boardState[i] == "A") {
               guessCount += 100
@@ -114,7 +116,10 @@
           }
         }
         document.getElementById("guessCount").innerHTML = ("Guesses: " + guessCount)
-
+        if (flippedSquares >= 6) {
+          gameOver = true
+          endGame(gameOver, guessCount)
+        }
       })
 
 
@@ -208,7 +213,7 @@
     function endGame(gameOver, guessCount) {
       setTimeout(function () {
         if (gameOver == true) {
-          if (window.confirm("Game over\nFinalScore: " + guessCount + "\nPress cancel to replay or OK to move to the leaderboard")) {
+          if (window.confirm("Game over\nFinalScore: " + guessCount + "\nPress Cancel to replay or OK to move to the leaderboard")) {
             window.location.href = "leaderboard.html";
           }
           else { window.location.href = "landing.html"; }
