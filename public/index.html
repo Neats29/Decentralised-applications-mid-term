@@ -38,30 +38,35 @@
     <div class="card_map">
       <hr>
       <h3 class="note">Only visible to spymaster</h3>
-      <div class="column">
-        <button class="button is_small" id="card_map_0"></button>
-        <button class="button is_small" id="card_map_1"></button>
-        <button class="button is_small" id="card_map_2"></button>
-      </div>
-      <div class="column">
-        <button class="button is_small" id="card_map_3"></button>
-        <button class="button is_small" id="card_map_4"></button>
-        <button class="button is_small" id="card_map_5"></button>
-      </div>
-      <div class="column">
-        <button class="button is_small" id="card_map_6"></button>
-        <button class="button is_small" id="card_map_7"></button>
-        <button class="button is_small" id="card_map_8"></button>
-      </div>
-      <div class="column is-4">
-        <div class="field">
-          <div class="control">
-            <h3></h3>
+      <div class="columns">
 
-            <input type="text" class="input is-medium" id="clue" placeholder="Send your clue">
-            <button class="button" id="send">Send Clue</button>
 
-            <div id="guessCount"></div>
+        <div class="column is-2">
+          <div class="column">
+            <button class="button is_small key" id="card_map_0"></button>
+            <button class="button is_small key" id="card_map_1"></button>
+            <button class="button is_small key" id="card_map_2"></button>
+          </div>
+          <div class="column">
+            <button class="button is_small key" id="card_map_3"></button>
+            <button class="button is_small key" id="card_map_4"></button>
+            <button class="button is_small key" id="card_map_5"></button>
+          </div>
+          <div class="column">
+            <button class="button is_small key" id="card_map_6"></button>
+            <button class="button is_small key" id="card_map_7"></button>
+            <button class="button is_small key" id="card_map_8"></button>
+          </div>
+        </div>
+        <div class="column is-4">
+          <div class="field">
+            <div class="control">
+              <div class="level">
+                <input type="text" class="input is-medium level-left" id="clue" placeholder="Send your clue">
+                <button class="button level-right send" id="send">Send Clue</button>
+              </div>
+              <div id="guessCount"></div>
+            </div>
           </div>
         </div>
       </div>
