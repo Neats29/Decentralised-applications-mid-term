@@ -22,9 +22,9 @@ One player is the 'spymaster' and the other is the 'field operative. _Due to lac
 
 The board presents a random set of cards with a word on them. The spymaster is given a 'key' which reveals the secret identity of the cards.
 
-The spymaster has to try and reveal as many of the cards with the secret identity (agent cards, marked red) by thinking of a word that encompases those words. E.g.: if the cards have France and China on them, the spymaster could give the clue 'country'.
+The spymaster has to try and reveal as many of the cards with the secret identity (agent cards, marked red) by thinking of a word that encompasses those words. E.g.: if the cards have France and China on them, the spymaster could give the clue 'country'.
 
-In addition to the agent cards, there are two other types of cards. The bystanders and the assasin. If the field operative accidently chooses a word, to which a bystander is associated, then they will not get any points, however, if they accidently pick the word that is associated with the assasin, they immediately lose.
+In addition to the agent cards, there are two other types of cards. The bystanders and the assassin. If the field operative accidentally chooses a word, to which a bystander is associated, then they will not get any points, however, if they accidentally pick the word that is associated with the assassin, they immediately lose.
 
 The goal of the game is to find all the agent (red) cards in as few turns as possible.
 
