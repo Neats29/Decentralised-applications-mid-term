@@ -6,6 +6,8 @@
 
 ### Codenames
 
+![](https://github.com/Neats29/Decentralised-applications-mid-term/blob/develop/preview.png)
+
 ### Tasks
 
 * #### Html & JS
